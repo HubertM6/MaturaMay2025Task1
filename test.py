@@ -1,1 +1,0 @@
-import validators.validator as validator; validator.validate("src.task")
