@@ -213,4 +213,4 @@ def validate(solution_path):
         score += 1
         message += "punkty za trzecie kryterium przyznane; "
 
-    print_verdict(score, "")
+    print_verdict(score, message)
