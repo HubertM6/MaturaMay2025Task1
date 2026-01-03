@@ -1,0 +1,13 @@
+services:
+  env:
+    image: python:3.8-bookworm
+    network_mode: "none"
+    command: [ "bash", "-c", '
+        cd code;
+        /usr/bin/python3 -c "import validators.validator as validator; validator.validate(\"src.task\")" > validator_output.txt
+      ' ]
+    volumes:
+      - .:/code
+    mem_limit: 1gb
+    ulimits:
+      cpu: 10

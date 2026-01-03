@@ -1,0 +1,18 @@
+sourceFile: src/task.py
+
+limits:
+  time: 1000
+  memory: 32000
+
+tasks:
+  task_1:
+    testedFunctionName: przestaw2
+    userInputFilename: null
+    userOutputFilename: wynik.txt
+    maxPoints: 4
+    checkerFilename: null
+    validatorFilename: validators/validator.py
+    checkTypes:
+      OFFICIAL:
+        inputFilesDirectory: tests
+        outputFilesDirectory: tests
