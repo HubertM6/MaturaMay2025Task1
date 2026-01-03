@@ -176,6 +176,8 @@ def validate(solution_path):
         print_verdict(0, "Użyto niedozwolonych funkcji")
         return
     
+    # tylko jeśli ograniczenia spełnione → oceniamy dalej
+    
     # --- 3. Poprawność wyniku ---
     ok = True
     for n in TEST_CASES:
@@ -191,8 +193,6 @@ def validate(solution_path):
         return
 
     score = 0
-
-    # tylko jeśli ograniczenia spełnione → oceniamy dalej
 
     # --- 4. Inicjalizacja ---
     if sprawdz_inicjalizacje(tree):
