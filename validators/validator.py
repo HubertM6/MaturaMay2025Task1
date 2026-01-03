@@ -4,6 +4,7 @@ import importlib
 import traceback
 
 # --- dane testowe i ograniczenia ---
+TEST_CASES = [0, 7, 70, 807, 1234, 120305, 90007, 111111, 987654321]
 FORBIDDEN_KEYWORDS = ["str", "list", "map", "filter", "reversed", "sorted"]
 
 # --- referencyjna funkcja ---
@@ -150,8 +151,7 @@ def sprawdz_zamiane_cyfr(tree: ast.AST) -> bool:
 
 
 
-def print_verdict(ok, score, message):
-    print(ok)
+def print_verdict(score, message):
     print(score)
     print(message)
 
@@ -161,7 +161,7 @@ def validate(solution_path):
     # --- 1. Import rozwiązania ucznia ---
     mod = importlib.import_module(solution_path)
     if not hasattr(mod, "przestaw2"):
-        print_verdict(0, 0, "Brak funkcji przestaw2")
+        print_verdict(0, "Brak funkcji przestaw2")
         return
 
     src = inspect.getsource(mod.przestaw2)
@@ -169,27 +169,41 @@ def validate(solution_path):
 
     # --- 2. Sprawdzenie ograniczeń ---
     if "przestaw2(" in src and "def przestaw2" not in src:
-        print_verdict(0, 0, "Rekurencja niedozwolona")
+        print_verdict(0, "Rekurencja niedozwolona")
         return
 
     if any(f + "(" in src for f in FORBIDDEN_KEYWORDS):
-        print_verdict(0, 0, "Użyto niedozwolonych funkcji")
+        print_verdict(0, "Użyto niedozwolonych funkcji")
+        return
+    
+    # --- 3. Poprawność wyniku ---
+    ok = True
+    for n in TEST_CASES:
+        try:
+            if mod.przestaw2(n) != przestaw_ref(n):
+                ok = False
+                break
+        except Exception:
+            ok = False
+            break
+    if ok:
+        print_verdict(4, "Algorytm poprawny")
         return
 
     score = 0
 
     # tylko jeśli ograniczenia spełnione → oceniamy dalej
 
-    # --- 3. Inicjalizacja ---
+    # --- 4. Inicjalizacja ---
     if sprawdz_inicjalizacje(tree):
         score += 1
 
-    # --- 4. Pętla ---
+    # --- 5. Pętla ---
     if sprawdz_petle(tree):
         score += 1
 
-    # --- 5. Zamiana cyfr ---
+    # --- 6. Zamiana cyfr ---
     if sprawdz_zamiane_cyfr(tree):
         score += 1
 
-    print_verdict(1, score, "")
+    print_verdict(score, "")
