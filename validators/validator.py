@@ -177,6 +177,8 @@ def validate(solution_path):
         return
     
     # tylko jeśli ograniczenia spełnione → oceniamy dalej
+
+    message = ""
     
     # --- 3. Poprawność wyniku ---
     ok = True
@@ -191,19 +193,24 @@ def validate(solution_path):
     if ok:
         print_verdict(4, "Algorytm poprawny")
         return
+    else:
+        message += "Algorytm nie daje poprawnych wyników; "
 
     score = 0
 
     # --- 4. Inicjalizacja ---
     if sprawdz_inicjalizacje(tree):
         score += 1
+        message += "punkty za pierwsze kryterium przyznane; "
 
     # --- 5. Pętla ---
     if sprawdz_petle(tree):
         score += 1
+        message += "punkty za drugie kryterium przyznane; "
 
     # --- 6. Zamiana cyfr ---
     if sprawdz_zamiane_cyfr(tree):
         score += 1
+        message += "punkty za trzecie kryterium przyznane; "
 
     print_verdict(score, "")

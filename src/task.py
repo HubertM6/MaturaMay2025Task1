@@ -1,2 +1,2 @@
-def przestaw2():
+def przestaw2(n):
     pass
